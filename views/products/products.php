@@ -41,182 +41,187 @@ $result = $productModel->getProducts();
 ?>
 
 <!DOCTYPE html>
+
 <html>
 
 <head>
 
-    <title>Productos</title>
+```
+<title>Productos</title>
 
-    <style>
+<style>
 
-        body{
-            font-family: Arial;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
+    body{
+        font-family: Arial;
+        background-color: #f4f4f4;
+        padding: 20px;
+    }
 
-        h1{
-            color: #333;
-        }
+    h1{
+        color: #333;
+    }
 
-        table{
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
+    table{
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
 
-        th, td{
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
+    th, td{
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
 
-        th{
-            background-color: #222;
-            color: white;
-        }
+    th{
+        background-color: #222;
+        color: white;
+    }
 
-        img{
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-        }
+    img{
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+    }
 
-        button{
-            padding: 10px;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+    button{
+        padding: 10px;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
 
-        .add-btn{
-            background-color: black;
-        }
+    .add-btn{
+        background-color: black;
+    }
 
-        .edit-btn{
-            background-color: orange;
-        }
+    .edit-btn{
+        background-color: orange;
+    }
 
-        .delete-btn{
-            background-color: red;
-        }
+    .delete-btn{
+        background-color: red;
+    }
 
-    </style>
+</style>
+```
 
 </head>
 
 <body>
 
-    <h1>Lista de Productos</h1>
+```
+<h1>Lista de Productos</h1>
 
-    <a href="../home.php">
+<a href="../home.php">
 
-        <button>
+    <button>
 
-            Inicio
+        Inicio
 
-        </button>
+    </button>
 
-    </a>
+</a>
 
-    <br><br>
+<br><br>
 
-    <a href="add-product.php">
+<a href="add-product.php">
 
-        <button class="add-btn">
+    <button class="add-btn">
 
-            Agregar Producto
+        Agregar Producto
 
-        </button>
+    </button>
 
-    </a>
+</a>
 
-    <br><br>
+<br><br>
 
-    <table>
+<table>
 
-        <tr>
+    <tr>
 
-            <th>ID</th>
-            <th>Imagen</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Acciones</th>
+        <th>ID</th>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Acciones</th>
 
-        </tr>
+    </tr>
 
-        <?php while($row = mysqli_fetch_assoc($result)) { ?>
+    <?php while($row = mysqli_fetch_assoc($result)) { ?>
 
-        <tr>
+    <tr>
 
-            <td>
+        <td>
 
-                <?php echo $row['id']; ?>
+            <?php echo $row['id']; ?>
 
-            </td>
+        </td>
 
-            <td>
+        <td>
 
-                <img 
-                src="../../assets/images/<?php echo $row['image']; ?>">
+            <img 
+            src="../../assets/images/<?php echo $row['image']; ?>">
 
-            </td>
+        </td>
 
-            <td>
+        <td>
 
-                <?php echo $row['name']; ?>
+            <?php echo $row['name']; ?>
 
-            </td>
+        </td>
 
-            <td>
+        <td>
 
-                <?php echo $row['description']; ?>
+            <?php echo $row['description']; ?>
 
-            </td>
+        </td>
 
-            <td>
+        <td>
 
-                ₡<?php echo $row['price']; ?>
+            ₡<?php echo $row['price']; ?>
 
-            </td>
+        </td>
 
-            <td>
+        <td>
 
-                <?php echo $row['stock']; ?>
+            <?php echo $row['stock']; ?>
 
-            </td>
+        </td>
 
-            <td>
+        <td>
 
-                <a href="modify-product.php?id=<?php echo $row['id']; ?>">
+            <a href="modify-product.php?id=<?php echo $row['id']; ?>">
 
-                    <button class="edit-btn">
+                <button class="edit-btn">
 
-                        Editar
+                    Editar
 
-                    </button>
+                </button>
 
-                </a>
+            </a>
 
-                <a href="../../controllers/ProductController.php?id=<?php echo $row['id']; ?>">
+            <a href="../../controllers/ProductController.php?id=<?php echo $row['id']; ?>">
 
-                    <button class="delete-btn">
+                <button class="delete-btn">
 
-                        Eliminar
+                    Eliminar
 
-                    </button>
+                </button>
 
-                </a>
+            </a>
 
-            </td>
+        </td>
 
-        </tr>
+    </tr>
 
-        <?php } ?>
+    <?php } ?>
 
-    </table>
+</table>
+```
 
 </body>
 

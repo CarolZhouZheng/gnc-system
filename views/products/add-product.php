@@ -1,10 +1,19 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
 
-    <title>Agregar Producto</title>
-       <a href="../home.php">
+```
+<title>Agregar Producto</title>
+```
+
+</head>
+
+<body>
+
+```
+<a href="../home.php">
 
     <button>
 
@@ -14,76 +23,104 @@
 
 </a>
 
-</head>
+<h1>Agregar Producto</h1>
 
-<body>
+<form
+action="../../controllers/ProductController.php"
+method="POST"
+enctype="multipart/form-data">
 
-    <h1>Agregar Producto</h1>
+    <label>Categoría:</label>
 
-    <form
-    action="/gnc-system/controllers/ProductController.php"
-    method="POST"
-    enctype="multipart/form-data">
+    <br>
 
-        <label>Categoría:</label>
-        <br>
+    <select name="category_id">
 
-        <select name="category_id">
+        <option value="1">
 
-            <option value="1">Proteínas</option>
+            Proteínas
 
-            <option value="2">Creatinas</option>
+        </option>
 
-            <option value="3">Pre-entrenos</option>
+        <option value="2">
 
-            <option value="4">Vitaminas</option>
+            Creatinas
 
-        </select>
+        </option>
 
-        <br><br>
+        <option value="3">
 
-        <label>Nombre:</label>
-        <br>
+            Pre-entrenos
 
-        <input type="text" name="name">
+        </option>
 
-        <br><br>
+        <option value="4">
 
-        <label>Descripción:</label>
-        <br>
+            Vitaminas
 
-        <textarea name="description"></textarea>
+        </option>
 
-        <br><br>
+    </select>
 
-        <label>Precio:</label>
-        <br>
+    <br><br>
 
-        <input type="number" name="price">
+    <label>Nombre:</label>
 
-        <br><br>
+    <br>
 
-        <label>Stock:</label>
-        <br>
+    <input
+    type="text"
+    name="name">
 
-        <input type="number" name="stock">
+    <br><br>
 
-        <br><br>
+    <label>Descripción:</label>
 
-        <label>Imagen:</label>
-        <br>
+    <br>
 
-        <input type="file" name="image">
+    <textarea
+    name="description"></textarea>
 
-        <br><br>
+    <br><br>
 
-        <button type="submit">
+    <label>Precio:</label>
 
-            Guardar Producto
+    <br>
 
-        </button>
+    <input
+    type="number"
+    name="price">
 
-    </form>
+    <br><br>
+
+    <label>Stock:</label>
+
+    <br>
+
+    <input
+    type="number"
+    name="stock">
+
+    <br><br>
+
+    <label>Imagen:</label>
+
+    <br>
+
+    <input
+    type="file"
+    name="image">
+
+    <br><br>
+
+    <button type="submit">
+
+        Guardar Producto
+
+    </button>
+
+</form>
+```
 
 </body>
 
