@@ -1,6 +1,7 @@
 <?php
 
 include_once __DIR__ . '/../config/database.php';
+
 class ProductModel {
 
     public function getProducts() {
@@ -10,6 +11,7 @@ class ProductModel {
         $sql = "SELECT * FROM products";
 
         return mysqli_query($conn, $sql);
+
     }
 
     public function getProductById($id) {
@@ -22,6 +24,7 @@ class ProductModel {
         $result = mysqli_query($conn, $sql);
 
         return mysqli_fetch_assoc($result);
+
     }
 
     public function addProduct(
@@ -86,7 +89,16 @@ class ProductModel {
 
         global $conn;
 
+        mysqli_query($conn, "
+
+        DELETE FROM sale_details
+
+        WHERE product_id = '$id'
+
+        ");
+
         $sql = "DELETE FROM products
+
         WHERE id = '$id'";
 
         return mysqli_query($conn, $sql);

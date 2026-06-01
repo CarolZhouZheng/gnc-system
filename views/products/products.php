@@ -163,8 +163,8 @@ $result = $productModel->getProducts();
 
         <td>
 
-            <img 
-            src="../../assets/images/<?php echo $row['image']; ?>">
+            <img
+            src="/assets/images/<?php echo $row['image']; ?>">
 
         </td>
 
@@ -204,7 +204,7 @@ $result = $productModel->getProducts();
 
             </a>
 
-            <a href="../../controllers/ProductController.php?id=<?php echo $row['id']; ?>">
+            <a href="/controllers/ProductController.php?id=<?php echo $row['id']; ?>">
 
                 <button class="delete-btn">
 

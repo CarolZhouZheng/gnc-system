@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `payment_methods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- Volcando datos para la tabla gncproyecto.payment_methods: ~3 rows (aproximadamente)
 INSERT INTO `payment_methods` (`id`, `name`) VALUES
@@ -62,12 +62,9 @@ CREATE TABLE IF NOT EXISTS `products` (
   CONSTRAINT `fk_product_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   CONSTRAINT `check_price` CHECK (`price` > 0),
   CONSTRAINT `check_stock` CHECK (`stock` >= 0)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Volcando datos para la tabla gncproyecto.products: ~2 rows (aproximadamente)
-INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `image`) VALUES
-	(1, 1, 'Whey Protein', 'Proteina sabor vainilla', 35000.00, 19, 'whey.jpg'),
-	(2, 2, 'Creatina Monohidratada', 'Creatina para fuerza', 18000.00, 15, 'creatina.jpg');
+-- Volcando datos para la tabla gncproyecto.products: ~3 rows (aproximadamente)
 
 -- Volcando estructura para tabla gncproyecto.purchase_details
 CREATE TABLE IF NOT EXISTS `purchase_details` (
@@ -97,13 +94,9 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   PRIMARY KEY (`id`),
   KEY `fk_purchase_supplier` (`supplier_id`),
   CONSTRAINT `fk_purchase_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Volcando datos para la tabla gncproyecto.purchases: ~3 rows (aproximadamente)
-INSERT INTO `purchases` (`id`, `supplier_id`, `purchase_date`, `total`, `product_name`, `quantity_boxes`, `status`) VALUES
-	(1, 1, '2026-05-30 19:25:04', 5.00, NULL, NULL, NULL),
-	(2, 1, '2026-05-30 19:25:36', 18.00, NULL, NULL, NULL),
-	(3, 1, '2026-05-30 19:33:01', 1800000.00, 'proteina', 4, 'Pendiente');
+-- Volcando datos para la tabla gncproyecto.purchases: ~4 rows (aproximadamente)
 
 -- Volcando estructura para tabla gncproyecto.sale_details
 CREATE TABLE IF NOT EXISTS `sale_details` (
@@ -117,11 +110,9 @@ CREATE TABLE IF NOT EXISTS `sale_details` (
   KEY `fk_sale_detail_product` (`product_id`),
   CONSTRAINT `fk_sale_detail_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `fk_sale_detail_sale` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Volcando datos para la tabla gncproyecto.sale_details: ~1 rows (aproximadamente)
-INSERT INTO `sale_details` (`id`, `sale_id`, `product_id`, `quantity`, `subtotal`) VALUES
-	(1, 1, 1, 1, 35000.00);
+-- Volcando datos para la tabla gncproyecto.sale_details: ~2 rows (aproximadamente)
 
 -- Volcando estructura para tabla gncproyecto.sales
 CREATE TABLE IF NOT EXISTS `sales` (
@@ -135,11 +126,9 @@ CREATE TABLE IF NOT EXISTS `sales` (
   KEY `fk_sale_payment_method` (`payment_method_id`),
   CONSTRAINT `fk_sale_payment_method` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`),
   CONSTRAINT `fk_sale_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Volcando datos para la tabla gncproyecto.sales: ~1 rows (aproximadamente)
-INSERT INTO `sales` (`id`, `user_id`, `payment_method_id`, `total`, `sale_date`) VALUES
-	(1, 1, 3, 35000.00, '2026-05-30 19:47:40');
+-- Volcando datos para la tabla gncproyecto.sales: ~3 rows (aproximadamente)
 
 -- Volcando estructura para tabla gncproyecto.suppliers
 CREATE TABLE IF NOT EXISTS `suppliers` (
@@ -149,11 +138,9 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   `email` varchar(100) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- Volcando datos para la tabla gncproyecto.suppliers: ~1 rows (aproximadamente)
-INSERT INTO `suppliers` (`id`, `name`, `phone`, `email`, `address`) VALUES
-	(1, 'GNC Costa Rica', '8888-8888', 'gnc@gmail.com', 'San Jose');
 
 -- Volcando estructura para tabla gncproyecto.users
 CREATE TABLE IF NOT EXISTS `users` (
