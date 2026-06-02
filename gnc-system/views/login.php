@@ -1,3 +1,11 @@
+<?php
+session_start();
+// Si ya existe una sesión, redirigir al home directamente
+if(isset($_SESSION['user'])) {
+    header("Location: home.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -62,7 +70,7 @@
     <div class="login-box">
         <img src="../assets/images/GNC_Logo.svg.png" alt="GNC Logo">
         <h1>Iniciar Sesión</h1>
-        <form action="../controllers/Logincontroller.php" method="POST">
+        <form action="../controllers/LoginController.php" method="POST">
             <div class="input-group">
                 <label for="email">Correo Electrónico</label>
                 <input type="email" id="email" name="email" required>

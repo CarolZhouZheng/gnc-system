@@ -20,82 +20,29 @@ $result = $supplierModel->getSuppliers();
 
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <title>Proveedores</title>
-
-    <style>
-
-        body{
-            font-family: Arial;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-
-        table{
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        th, td{
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th{
-            background-color: black;
-            color: white;
-        }
-
-        button{
-            padding: 10px;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-
-        .add-btn{
-            background-color: black;
-        }
-
-        .delete-btn{
-            background-color: red;
-        }
-
-    </style>
-
+    <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
-
 <body>
 
-<h1>Lista de Proveedores</h1>
+    <div class="navbar">
+        <a href="../home.php" class="logo">
+            <img src="../../assets/images/GNC_Logo.svg.png" alt="GNC Logo">
+        </a>
+        <div class="nav-actions">
+            <a href="../logout.php" class="btn">Cerrar Sesión</a>
+        </div>
+    </div>
 
-<a href="../home.php">
+    <div class="container">
+        <h1 class="title">Proveedores</h1>
+        <p class="subtitle">Directorio de socios comerciales y distribución.</p>
 
-    <button>
-
-        Inicio
-
-    </button>
-
-</a>
-
-<br><br>
-
-<a href="add-supplier.php">
-
-    <button class="add-btn">
-
-        Agregar Proveedor
-
-    </button>
-
-</a>
-
-<br><br>
+        <div style="margin-bottom: 25px;">
+            <a href="../home.php" class="btn">Inicio</a>
+            <a href="add-supplier.php" class="btn add-btn">Agregar Proveedor</a>
+        </div>
 
 <table>
 
@@ -145,17 +92,14 @@ $result = $supplierModel->getSuppliers();
         </td>
 
         <td>
-
-            <a href="../../controllers/SupplierController.php?id=<?php echo $row['id']; ?>">
-
-                <button class="delete-btn">
-
-                    Eliminar
-
-                </button>
-
+            <a href="modify-supplier.php?id=<?php echo $row['id']; ?>">
+                <button class="btn">Editar</button>
             </a>
-
+            <a href="../../controllers/SupplierController.php?id=<?php echo $row['id']; ?>">
+                <button class="delete-btn">
+                    Eliminar
+                </button>
+            </a>
         </td>
 
     </tr>

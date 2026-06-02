@@ -42,96 +42,39 @@ $result = $productModel->getProducts();
 
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <title>Productos</title>
-
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
-
-        body{
-            font-family: Arial;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-
-        h1{
-            color: #333;
-        }
-
-        table{
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        th, td{
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th{
-            background-color: #222;
-            color: white;
-        }
-
-        img{
-            width: 80px;
-            height: 80px;
+        /* Estilo específico para las miniaturas de productos en la tabla */
+        .product-img {
+            width: 60px;
+            height: 60px;
             object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--gnc-border);
         }
-
-        button{
-            padding: 10px;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .add-btn{
-            background-color: black;
-        }
-
-        .edit-btn{
-            background-color: orange;
-        }
-
-        .delete-btn{
-            background-color: red;
-        }
-
     </style>
-
 </head>
-
 <body>
 
-    <h1>Lista de Productos</h1>
+    <div class="navbar">
+        <a href="../home.php" class="logo">
+            <img src="../../assets/images/GNC_Logo.svg.png" alt="GNC Logo">
+        </a>
+        <div class="nav-actions">
+            <a href="../logout.php" class="btn">Cerrar Sesión</a>
+        </div>
+    </div>
 
-    <a href="../home.php">
+    <div class="container">
+        <h1 class="title">Inventario</h1>
+        <p class="subtitle">Gestión centralizada de suplementos y stock disponible.</p>
 
-        <button>
-
-            Inicio
-
-        </button>
-
-    </a>
-
-    <br><br>
-
-    <a href="add-product.php">
-
-        <button class="add-btn">
-
-            Agregar Producto
-
-        </button>
-
-    </a>
-
-    <br><br>
+        <div style="margin-bottom: 25px;">
+            <a href="../home.php" class="btn">Inicio</a>
+            <a href="add-product.php" class="btn add-btn">Agregar Producto</a>
+        </div>
 
     <table>
 
@@ -158,10 +101,7 @@ $result = $productModel->getProducts();
             </td>
 
             <td>
-
-                <img 
-                src="../../assets/images/<?php echo $row['image']; ?>">
-
+                <img src="../../assets/images/<?php echo $row['image']; ?>" class="product-img">
             </td>
 
             <td>
@@ -189,25 +129,11 @@ $result = $productModel->getProducts();
             </td>
 
             <td>
-
                 <a href="modify-product.php?id=<?php echo $row['id']; ?>">
-
-                    <button class="edit-btn">
-
-                        Editar
-
-                    </button>
-
+                    <button class="btn">Editar</button>
                 </a>
-
                 <a href="../../controllers/ProductController.php?id=<?php echo $row['id']; ?>">
-
-                    <button class="delete-btn">
-
-                        Eliminar
-
-                    </button>
-
+                    <button class="btn">Eliminar</button>
                 </a>
 
             </td>

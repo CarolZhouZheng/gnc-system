@@ -42,52 +42,28 @@ $sales = $saleModel->getSales();
 
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <title>Historial de Ventas</title>
-
-    <style>
-
-        body{
-            font-family: Arial;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-
-        table{
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        th, td{
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th{
-            background-color: black;
-            color: white;
-        }
-
-    </style>
-
+    <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
-
 <body>
 
-    <h1>Historial de Ventas</h1>
-       <a href="../home.php">
+    <div class="navbar">
+        <a href="../home.php" class="logo">
+            <img src="../../assets/images/GNC_Logo.svg.png" alt="GNC Logo">
+        </a>
+        <div class="nav-actions">
+            <a href="../logout.php" class="btn">Cerrar Sesión</a>
+        </div>
+    </div>
 
-    <button>
-
-        Inicio
-
-    </button>
-
-</a>
+    <div class="container">
+        <h1 class="title">Historial de Ventas</h1>
+        <p class="subtitle">Registro completo de transacciones realizadas en el sistema.</p>
+        
+        <div style="margin-bottom: 25px;">
+            <a href="../home.php" class="btn">Inicio</a>
+        </div>
 
     <table>
 

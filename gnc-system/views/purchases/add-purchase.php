@@ -1,131 +1,80 @@
 <?php
-
+session_start();
+if(!isset($_SESSION['user'])) {
+    header("Location: ../login.php");
+    exit();
+}
 include_once '../../models/PurchaseModel.php';
-
 $purchaseModel = new PurchaseModel();
-
 $suppliers = $purchaseModel->getSuppliers();
-
 ?>
-
 <!DOCTYPE html>
-
-<html>
-
+<html lang="es">
 <head>
-
-
+    <meta charset="UTF-8">
 <title>Registrar Pedido</title>
-
-<style>
-
-    body{
-        font-family: Arial;
-        padding: 20px;
-        background-color: #f4f4f4;
-    }
-
-    form{
-        background: white;
-        width: 400px;
-        padding: 20px;
-    }
-
-    select, input{
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-    }
-
-    button{
-        margin-top: 15px;
-        padding: 10px;
-        background-color: black;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-
-</style>
-
-
+<link rel="stylesheet" href="../../assets/css/style.css">
 </head>
-
 <body>
+    <div class="navbar">
+        <a href="../home.php" class="logo">
+            <img src="../../assets/images/GNC_Logo.svg.png" alt="GNC Logo">
+        </a>
+        <div class="nav-actions">
+            <a href="../logout.php" class="btn">Cerrar Sesión</a>
+        </div>
+    </div>
 
-<h1>Registrar Pedido</h1>
+    <div class="container">
+        <h1 class="title">Nuevo Pedido</h1>
+        <p class="subtitle">Registra las órdenes de compra enviadas a tus proveedores.</p>
 
-<form
-method="POST"
-action="../../controllers/PurchaseController.php"
->
+        <div style="margin-bottom: 25px;">
+            <a href="purchases.php" class="btn">Volver a Pedidos</a>
+        </div>
 
-<select name="supplier_id">
+        <div style="max-width: 500px;">
+            <form method="POST" action="../../controllers/PurchaseController.php">
+                <div style="margin-bottom: 15px;">
+                    <label>Proveedor:</label>
+                    <select name="supplier_id" required>
+                        <option value="">Seleccione proveedor</option>
+                        <?php while($row = mysqli_fetch_assoc($suppliers)) { ?>
+                            <option value="<?php echo $row['id']; ?>">
+                                <?php echo $row['name']; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
 
-    <option value="">
+                <div style="margin-bottom: 15px;">
+                    <label>Producto solicitado:</label>
+                    <input type="text" name="product_name" required placeholder="Ej. Lote Proteína Whey">
+                </div>
 
-        Seleccione proveedor
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px;">
+                    <div>
+                        <label>Cantidad (Cajas):</label>
+                        <input type="number" name="quantity_boxes" required>
+                    </div>
+                    <div>
+                        <label>Costo Total (₡):</label>
+                        <input type="number" name="total" required>
+                    </div>
+                </div>
 
-    </option>
+                <div style="margin-bottom: 25px;">
+                    <label>Estado Inicial:</label>
+                    <select name="status">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En camino">En camino</option>
+                        <option value="Recibido">Recibido</option>
+                    </select>
+                </div>
 
-    <?php while($row = mysqli_fetch_assoc($suppliers)) { ?>
-
-    <option value="<?php echo $row['id']; ?>">
-
-        <?php echo $row['name']; ?>
-
-    </option>
-
-    <?php } ?>
-
-</select>
-
-<input
-type="text"
-name="product_name"
-placeholder="Producto solicitado">
-
-<input
-type="number"
-name="quantity_boxes"
-placeholder="Cantidad de cajas">
-
-<input
-type="number"
-name="total"
-placeholder="Costo total">
-
-<select name="status">
-
-    <option value="Pendiente">
-
-        Pendiente
-
-    </option>
-
-    <option value="En camino">
-
-        En camino
-
-    </option>
-
-    <option value="Recibido">
-
-        Recibido
-
-    </option>
-
-</select>
-
-<button type="submit">
-
-    Registrar Pedido
-
-</button>
-
-
-</form>
-
+                <button type="submit" class="btn add-btn" style="width: 100%;">Registrar Pedido</button>
+            </form>
+        </div>
+    </div>
 </body>
-
 </html>
