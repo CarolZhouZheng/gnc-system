@@ -16,6 +16,17 @@ class SupplierModel {
 
     }
 
+    public function getSupplierById($id) {
+
+        global $conn;
+
+        $sql = "SELECT * FROM suppliers WHERE id = '$id'";
+
+        $result = mysqli_query($conn, $sql);
+
+        return mysqli_fetch_assoc($result);
+    }
+
     public function addSupplier(
         $name,
         $phone,
@@ -42,6 +53,27 @@ class SupplierModel {
             '$address'
         
         )";
+
+        return mysqli_query($conn, $sql);
+
+    }
+
+    public function updateSupplier(
+        $id,
+        $name,
+        $phone,
+        $email,
+        $address
+    ) {
+
+        global $conn;
+
+        $sql = "UPDATE suppliers SET 
+                name = '$name', 
+                phone = '$phone', 
+                email = '$email', 
+                address = '$address' 
+                WHERE id = '$id'";
 
         return mysqli_query($conn, $sql);
 

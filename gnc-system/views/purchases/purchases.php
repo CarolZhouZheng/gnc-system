@@ -21,88 +21,29 @@ $result = $purchaseModel->getPurchases();
 <!DOCTYPE html>
 
 <html>
-
 <head>
-
-
 <title>Pedidos a Proveedores</title>
-
-<style>
-
-    body{
-        font-family: Arial;
-        padding: 20px;
-        background-color: #f4f4f4;
-    }
-
-    table{
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-    }
-
-    th, td{
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: center;
-    }
-
-    th{
-        background-color: black;
-        color: white;
-    }
-
-    button{
-        padding: 10px;
-        border: none;
-        color: white;
-        cursor: pointer;
-    }
-
-    .add-btn{
-        background-color: black;
-    }
-
-    select{
-        padding: 5px;
-    }
-
-</style>
-
-
+<link rel="stylesheet" href="../../assets/css/style.css">
 </head>
-
 <body>
 
-<h1>Pedidos a Proveedores</h1>
+<div class="navbar">
+    <a href="../home.php" class="logo">
+        <img src="../../assets/images/GNC_Logo.svg.png" alt="GNC Logo">
+    </a>
+    <div class="nav-actions">
+        <a href="../logout.php" class="btn">Cerrar Sesión</a>
+    </div>
+</div>
 
-<a href="../home.php">
+<div class="container">
+    <h1 class="title">Pedidos a Proveedores</h1>
+    <p class="subtitle">Gestión de abastecimiento con proveedores externos.</p>
 
-
-<button>
-
-    Inicio
-
-</button>
-
-
-</a>
-
-<br><br>
-
-<a href="add-purchase.php">
-
-
-<button class="add-btn">
-
-    Registrar Pedido
-
-</button>
-
-
-</a>
-
-<br><br>
+    <div style="margin-bottom: 25px;">
+        <a href="../home.php" class="btn">Inicio</a>
+        <a href="add-purchase.php" class="btn add-btn">Registrar Pedido</a>
+    </div>
 
 <table>
 

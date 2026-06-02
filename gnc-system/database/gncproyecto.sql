@@ -16,7 +16,7 @@
 
 
 -- Volcando estructura de base de datos para gncproyecto
-CREATE DATABASE IF NOT EXISTS `gncproyecto` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci */;
+CREATE DATABASE IF NOT EXISTS `gncproyecto` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `gncproyecto`;
 
 -- Volcando estructura para tabla gncproyecto.categories
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla gncproyecto.categories: ~5 rows (aproximadamente)
 INSERT INTO `categories` (`id`, `name`, `description`) VALUES
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `payment_methods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla gncproyecto.payment_methods: ~3 rows (aproximadamente)
 INSERT INTO `payment_methods` (`id`, `name`) VALUES
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   CONSTRAINT `fk_product_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   CONSTRAINT `check_price` CHECK (`price` > 0),
   CONSTRAINT `check_stock` CHECK (`stock` >= 0)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla gncproyecto.products: ~2 rows (aproximadamente)
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `image`) VALUES
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `purchase_details` (
   KEY `fk_purchase_detail_product` (`product_id`),
   CONSTRAINT `fk_purchase_detail_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `fk_purchase_detail_purchase` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla gncproyecto.purchase_details: ~0 rows (aproximadamente)
 
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   PRIMARY KEY (`id`),
   KEY `fk_purchase_supplier` (`supplier_id`),
   CONSTRAINT `fk_purchase_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla gncproyecto.purchases: ~3 rows (aproximadamente)
 INSERT INTO `purchases` (`id`, `supplier_id`, `purchase_date`, `total`, `product_name`, `quantity_boxes`, `status`) VALUES
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `sale_details` (
   KEY `fk_sale_detail_product` (`product_id`),
   CONSTRAINT `fk_sale_detail_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `fk_sale_detail_sale` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla gncproyecto.sale_details: ~1 rows (aproximadamente)
 INSERT INTO `sale_details` (`id`, `sale_id`, `product_id`, `quantity`, `subtotal`) VALUES
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `sales` (
   KEY `fk_sale_payment_method` (`payment_method_id`),
   CONSTRAINT `fk_sale_payment_method` FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods` (`id`),
   CONSTRAINT `fk_sale_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla gncproyecto.sales: ~1 rows (aproximadamente)
 INSERT INTO `sales` (`id`, `user_id`, `payment_method_id`, `total`, `sale_date`) VALUES
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `suppliers` (
   `email` varchar(100) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla gncproyecto.suppliers: ~1 rows (aproximadamente)
 INSERT INTO `suppliers` (`id`, `name`, `phone`, `email`, `address`) VALUES
@@ -163,14 +163,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla gncproyecto.users: ~1 rows (aproximadamente)
 INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
 	(1, 'Admin2AC', 'admin2AC@gmail.com', 'Admin1234');
 
 -- Volcando estructura para disparador gncproyecto.decrease_stock_after_sale
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER decrease_stock_after_sale
 
@@ -191,7 +191,7 @@ DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Volcando estructura para disparador gncproyecto.increase_stock_after_purchase
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER increase_stock_after_purchase
 

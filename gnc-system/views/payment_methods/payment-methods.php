@@ -20,82 +20,29 @@ $result = $paymentModel->getMethods();
 
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <title>Métodos de Pago</title>
-
-    <style>
-
-        body{
-            font-family: Arial;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-
-        table{
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
-
-        th, td{
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th{
-            background-color: black;
-            color: white;
-        }
-
-        button{
-            padding: 10px;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-
-        .add-btn{
-            background-color: black;
-        }
-
-        .delete-btn{
-            background-color: red;
-        }
-
-    </style>
-
+    <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
-
 <body>
 
-<h1>Métodos de Pago</h1>
+    <div class="navbar">
+        <a href="../home.php" class="logo">
+            <img src="../../assets/images/GNC_Logo.svg.png" alt="GNC Logo">
+        </a>
+        <div class="nav-actions">
+            <a href="../logout.php" class="btn">Cerrar Sesión</a>
+        </div>
+    </div>
 
-<a href="../home.php">
+    <div class="container">
+        <h1 class="title">Métodos de Pago</h1>
+        <p class="subtitle">Opciones de cobro habilitadas en el punto de venta.</p>
 
-    <button>
-
-        Inicio
-
-    </button>
-
-</a>
-
-<br><br>
-
-<a href="add-method.php">
-
-    <button class="add-btn">
-
-        Agregar Método
-
-    </button>
-
-</a>
-
-<br><br>
+        <div style="margin-bottom: 25px;">
+            <a href="../home.php" class="btn">Inicio</a>
+            <a href="add-method.php" class="btn add-btn">Agregar Método</a>
+        </div>
 
 <table>
 
