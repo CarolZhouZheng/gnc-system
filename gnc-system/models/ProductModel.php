@@ -16,12 +16,18 @@ class ProductModel {
 
         global $conn;
 
-        $sql = "SELECT * FROM products
-        WHERE id = '$id'";
+        $sql = "SELECT * FROM products WHERE id = ?";
 
-        $result = mysqli_query($conn, $sql);
+        $stmt = mysqli_prepare($conn, $sql);
+
+        mysqli_stmt_bind_param($stmt, "i", $id);
+
+        mysqli_stmt_execute($stmt);
+
+        $result = mysqli_stmt_get_result($stmt);
 
         return mysqli_fetch_assoc($result);
+
     }
 
     public function addProduct(
@@ -35,25 +41,20 @@ class ProductModel {
 
         global $conn;
 
-        $sql = "INSERT INTO products(
+        $sql = "INSERT INTO products (
             category_id,
             name,
             description,
             price,
             stock,
             image
-        )
+        ) VALUES (?, ?, ?, ?, ?, ?)";
 
-        VALUES(
-            '$category_id',
-            '$name',
-            '$description',
-            '$price',
-            '$stock',
-            '$image'
-        )";
+        $stmt = mysqli_prepare($conn, $sql);
 
-        return mysqli_query($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "issdis", $category_id, $name, $description, $price, $stock, $image);
+
+        return mysqli_stmt_execute($stmt);
 
     }
 
@@ -69,16 +70,18 @@ class ProductModel {
         global $conn;
 
         $sql = "UPDATE products SET
+            name = ?,
+            description = ?,
+            price = ?,
+            stock = ?,
+            image = ?
+        WHERE id = ?";
 
-        name = '$name',
-        description = '$description',
-        price = '$price',
-        stock = '$stock',
-        image = '$image'
+        $stmt = mysqli_prepare($conn, $sql);
 
-        WHERE id = '$id'";
+        mysqli_stmt_bind_param($stmt, "ssdisi", $name, $description, $price, $stock, $image, $id);
 
-        return mysqli_query($conn, $sql);
+        return mysqli_stmt_execute($stmt);
 
     }
 
@@ -86,13 +89,15 @@ class ProductModel {
 
         global $conn;
 
-        $sql = "DELETE FROM products
-        WHERE id = '$id'";
+        $sql = "DELETE FROM products WHERE id = ?";
 
-        return mysqli_query($conn, $sql);
+        $stmt = mysqli_prepare($conn, $sql);
+
+        mysqli_stmt_bind_param($stmt, "i", $id);
+
+        return mysqli_stmt_execute($stmt);
 
     }
 
 }
-
 ?>

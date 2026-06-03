@@ -111,27 +111,66 @@ if(isset($_POST['finish_sale'])) {
     }
 
     $user_id = $_SESSION['user']['id'];
+    $conn = $saleModel->getConnection();
 
-    $sale_id = $saleModel->createSale(
-        $total,
-        $user_id,
-        $payment_method_id
-    );
+    // Iniciar transacción explícita
+    mysqli_begin_transaction($conn);
 
-    foreach($_SESSION['cart'] as $item) {
-
-        $saleModel->addSaleDetail(
-            $sale_id,
-            $item['product_id'],
-            $item['quantity'],
-            $item['subtotal']
+    try {
+        $sale_id = $saleModel->createSale(
+            $total,
+            $user_id,
+            $payment_method_id
         );
 
+        if (!$sale_id) {
+            throw new Exception("No se pudo registrar la cabecera de la venta.");
+        }
+
+        foreach($_SESSION['cart'] as $item) {
+            // Bloqueo de fila para evitar condiciones de carrera concurrentes (Aislamiento)
+            $product = $saleModel->getProductStockForUpdate($item['product_id']);
+            if (!$product) {
+                throw new Exception("Producto no encontrado.");
+            }
+
+            if ($item['quantity'] > $product['stock']) {
+                throw new Exception("Stock insuficiente para " . $product['name'] . ". Disponible: " . $product['stock']);
+            }
+
+            $detail_inserted = $saleModel->addSaleDetail(
+                $sale_id,
+                $item['product_id'],
+                $item['quantity'],
+                $item['subtotal']
+            );
+
+            if (!$detail_inserted) {
+                throw new Exception("Error al insertar el detalle de la venta.");
+            }
+        }
+
+        // Si todo va bien, confirmar la transacción (Commit)
+        mysqli_commit($conn);
+
+        $_SESSION['cart'] = [];
+
+        header("Location: ../views/sales/sales-history.php");
+        exit();
+
+    } catch (Exception $e) {
+        // Ante cualquier error, deshacer todos los cambios (Rollback)
+        mysqli_rollback($conn);
+
+        echo "
+        <div style='font-family: sans-serif; padding: 20px; text-align: center;'>
+            <h1 style='color: #d9534f;'>Error en la Transacción</h1>
+            <p>" . htmlspecialchars($e->getMessage()) . "</p>
+            <a href='../views/sales/sales.php' style='display: inline-block; padding: 10px 20px; background: #0275d8; color: white; text-decoration: none; border-radius: 4px;'>Volver al carrito</a>
+        </div>
+        ";
+        exit();
     }
-
-    $_SESSION['cart'] = [];
-
-    header("Location: ../views/sales/sales-history.php");
 
 }
 

@@ -5,8 +5,11 @@ if(!isset($_SESSION['user'])) {
     exit();
 }
 include_once '../../models/PurchaseModel.php';
+include_once '../../models/ProductModel.php';
 $purchaseModel = new PurchaseModel();
+$productModel = new ProductModel();
 $suppliers = $purchaseModel->getSuppliers();
+$products = $productModel->getProducts();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -49,7 +52,14 @@ $suppliers = $purchaseModel->getSuppliers();
 
                 <div style="margin-bottom: 15px;">
                     <label>Producto solicitado:</label>
-                    <input type="text" name="product_name" required placeholder="Ej. Lote Proteína Whey">
+                    <select name="product_id" required>
+                        <option value="">Seleccione producto</option>
+                        <?php while($row = mysqli_fetch_assoc($products)) { ?>
+                            <option value="<?php echo $row['id']; ?>">
+                                <?php echo $row['name']; ?> (Stock actual: <?php echo $row['stock']; ?>)
+                            </option>
+                        <?php } ?>
+                    </select>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px;">
