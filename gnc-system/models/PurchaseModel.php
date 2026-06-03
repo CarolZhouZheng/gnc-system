@@ -4,6 +4,11 @@ include_once __DIR__ . '/../config/database.php';
 
 class PurchaseModel {
 
+    public function getConnection() {
+        global $conn;
+        return $conn;
+    }
+
     public function getPurchases() {
 
         global $conn;
@@ -46,27 +51,47 @@ class PurchaseModel {
 
         global $conn;
 
-        $sql = "INSERT INTO purchases(
-        
+        $sql = "INSERT INTO purchases (
             supplier_id,
             product_name,
             quantity_boxes,
             total,
             status
-        
-        )
+        ) VALUES (?, ?, ?, ?, ?)";
 
-        VALUES(
-        
-            '$supplier_id',
-            '$product_name',
-            '$quantity_boxes',
-            '$total',
-            '$status'
-        
-        )";
+        $stmt = mysqli_prepare($conn, $sql);
 
-        return mysqli_query($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "isids", $supplier_id, $product_name, $quantity_boxes, $total, $status);
+
+        if (mysqli_stmt_execute($stmt)) {
+            return mysqli_insert_id($conn);
+        }
+
+        return false;
+
+    }
+
+    public function addPurchaseDetail(
+        $purchase_id,
+        $product_id,
+        $quantity,
+        $subtotal
+    ) {
+
+        global $conn;
+
+        $sql = "INSERT INTO purchase_details (
+            purchase_id,
+            product_id,
+            quantity,
+            subtotal
+        ) VALUES (?, ?, ?, ?)";
+
+        $stmt = mysqli_prepare($conn, $sql);
+
+        mysqli_stmt_bind_param($stmt, "iiid", $purchase_id, $product_id, $quantity, $subtotal);
+
+        return mysqli_stmt_execute($stmt);
 
     }
 
@@ -77,13 +102,13 @@ class PurchaseModel {
 
         global $conn;
 
-        $sql = "UPDATE purchases
-        
-        SET status = '$status'
-        
-        WHERE id = '$id'";
+        $sql = "UPDATE purchases SET status = ? WHERE id = ?";
 
-        return mysqli_query($conn, $sql);
+        $stmt = mysqli_prepare($conn, $sql);
+
+        mysqli_stmt_bind_param($stmt, "si", $status, $id);
+
+        return mysqli_stmt_execute($stmt);
 
     }
 
