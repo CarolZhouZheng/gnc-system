@@ -4,11 +4,11 @@ session_start();
 
 $inactive = 300;
 
-if(isset($_SESSION['timeout'])) {
+if (isset($_SESSION['timeout'])) {
 
     $sessionLife = time() - $_SESSION['timeout'];
 
-    if($sessionLife > $inactive) {
+    if ($sessionLife > $inactive) {
 
         session_unset();
 
@@ -17,19 +17,16 @@ if(isset($_SESSION['timeout'])) {
         header("Location: ../login.php");
 
         exit();
-
     }
-
 }
 
 $_SESSION['timeout'] = time();
 
-if(!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
 
     header("Location: ../login.php");
 
     exit();
-
 }
 
 include_once '../../models/ProductModel.php';
@@ -42,6 +39,7 @@ $result = $productModel->getProducts();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Productos</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
@@ -56,6 +54,7 @@ $result = $productModel->getProducts();
         }
     </style>
 </head>
+
 <body>
 
     <div class="navbar">
@@ -72,77 +71,77 @@ $result = $productModel->getProducts();
         <p class="subtitle">Gestión centralizada de suplementos y stock disponible.</p>
 
         <div style="margin-bottom: 25px;">
-            <a href="../home.php" class="btn">Inicio</a>
+            <a href="../home.php" class="btn">Volver</a>
             <a href="add-product.php" class="btn add-btn">Agregar Producto</a>
         </div>
 
-    <table>
+        <table>
 
-        <tr>
+            <tr>
 
-            <th>ID</th>
-            <th>Imagen</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Acciones</th>
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
 
-        </tr>
+            </tr>
 
-        <?php while($row = mysqli_fetch_assoc($result)) { ?>
+            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
 
-        <tr>
+                <tr>
 
-            <td>
+                    <td>
 
-                <?php echo $row['id']; ?>
+                        <?php echo $row['id']; ?>
 
-            </td>
+                    </td>
 
-            <td>
-                <img src="../../assets/images/<?php echo $row['image']; ?>" class="product-img">
-            </td>
+                    <td>
+                        <img src="../../assets/images/<?php echo $row['image']; ?>" class="product-img">
+                    </td>
 
-            <td>
+                    <td>
 
-                <?php echo $row['name']; ?>
+                        <?php echo $row['name']; ?>
 
-            </td>
+                    </td>
 
-            <td>
+                    <td>
 
-                <?php echo $row['description']; ?>
+                        <?php echo $row['description']; ?>
 
-            </td>
+                    </td>
 
-            <td>
+                    <td>
 
-                ₡<?php echo $row['price']; ?>
+                        ₡<?php echo $row['price']; ?>
 
-            </td>
+                    </td>
 
-            <td>
+                    <td>
 
-                <?php echo $row['stock']; ?>
+                        <?php echo $row['stock']; ?>
 
-            </td>
+                    </td>
 
-            <td>
-                <a href="modify-product.php?id=<?php echo $row['id']; ?>">
-                    <button class="btn">Editar</button>
-                </a>
-                <a href="../../controllers/ProductController.php?id=<?php echo $row['id']; ?>">
-                    <button class="btn">Eliminar</button>
-                </a>
+                    <td>
+                        <a href="modify-product.php?id=<?php echo $row['id']; ?>">
+                            <button class="btn">Editar</button>
+                        </a>
+                        <a href="../../controllers/ProductController.php?id=<?php echo $row['id']; ?>">
+                            <button class="btn">Eliminar</button>
+                        </a>
 
-            </td>
+                    </td>
 
-        </tr>
+                </tr>
 
-        <?php } ?>
+            <?php } ?>
 
-    </table>
+        </table>
 
 </body>
 

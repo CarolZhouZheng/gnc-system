@@ -2,12 +2,11 @@
 
 session_start();
 
-if(!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
 
     header("Location: ../login.php");
 
     exit();
-
 }
 
 include_once '../../models/SupplierModel.php';
@@ -20,10 +19,12 @@ $result = $supplierModel->getSuppliers();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Proveedores</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
+
 <body>
 
     <div class="navbar">
@@ -40,73 +41,73 @@ $result = $supplierModel->getSuppliers();
         <p class="subtitle">Directorio de socios comerciales y distribución.</p>
 
         <div style="margin-bottom: 25px;">
-            <a href="../home.php" class="btn">Inicio</a>
+            <a href="../home.php" class="btn">Volver</a>
             <a href="add-supplier.php" class="btn add-btn">Agregar Proveedor</a>
         </div>
 
-<table>
+        <table>
 
-    <tr>
+            <tr>
 
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Teléfono</th>
-        <th>Email</th>
-        <th>Dirección</th>
-        <th>Acciones</th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
 
-    </tr>
+            </tr>
 
-    <?php while($row = mysqli_fetch_assoc($result)) { ?>
+            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
 
-    <tr>
+                <tr>
 
-        <td>
+                    <td>
 
-            <?php echo $row['id']; ?>
+                        <?php echo $row['id']; ?>
 
-        </td>
+                    </td>
 
-        <td>
+                    <td>
 
-            <?php echo $row['name']; ?>
+                        <?php echo $row['name']; ?>
 
-        </td>
+                    </td>
 
-        <td>
+                    <td>
 
-            <?php echo $row['phone']; ?>
+                        <?php echo $row['phone']; ?>
 
-        </td>
+                    </td>
 
-        <td>
+                    <td>
 
-            <?php echo $row['email']; ?>
+                        <?php echo $row['email']; ?>
 
-        </td>
+                    </td>
 
-        <td>
+                    <td>
 
-            <?php echo $row['address']; ?>
+                        <?php echo $row['address']; ?>
 
-        </td>
+                    </td>
 
-        <td>
-            <a href="modify-supplier.php?id=<?php echo $row['id']; ?>">
-                <button class="btn">Editar</button>
-            </a>
-            <a href="../../controllers/SupplierController.php?id=<?php echo $row['id']; ?>">
-                <button class="delete-btn">
-                    Eliminar
-                </button>
-            </a>
-        </td>
+                    <td>
+                        <a href="modify-supplier.php?id=<?php echo $row['id']; ?>">
+                            <button class="btn">Editar</button>
+                        </a>
+                        <a href="../../controllers/SupplierController.php?id=<?php echo $row['id']; ?>">
+                            <button class="delete-btn">
+                                Eliminar
+                            </button>
+                        </a>
+                    </td>
 
-    </tr>
+                </tr>
 
-    <?php } ?>
+            <?php } ?>
 
-</table>
+        </table>
 
 </body>
 

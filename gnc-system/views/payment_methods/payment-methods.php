@@ -2,12 +2,11 @@
 
 session_start();
 
-if(!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
 
     header("Location: ../login.php");
 
     exit();
-
 }
 
 include_once '../../models/PaymentMethodModel.php';
@@ -20,10 +19,12 @@ $result = $paymentModel->getMethods();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Métodos de Pago</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
+
 <body>
 
     <div class="navbar">
@@ -40,55 +41,55 @@ $result = $paymentModel->getMethods();
         <p class="subtitle">Opciones de cobro habilitadas en el punto de venta.</p>
 
         <div style="margin-bottom: 25px;">
-            <a href="../home.php" class="btn">Inicio</a>
+            <a href="../home.php" class="btn">Volver</a>
             <a href="add-method.php" class="btn add-btn">Agregar Método</a>
         </div>
 
-<table>
+        <table>
 
-    <tr>
+            <tr>
 
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Acciones</th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
 
-    </tr>
+            </tr>
 
-    <?php while($row = mysqli_fetch_assoc($result)) { ?>
+            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
 
-    <tr>
+                <tr>
 
-        <td>
+                    <td>
 
-            <?php echo $row['id']; ?>
+                        <?php echo $row['id']; ?>
 
-        </td>
+                    </td>
 
-        <td>
+                    <td>
 
-            <?php echo $row['name']; ?>
+                        <?php echo $row['name']; ?>
 
-        </td>
+                    </td>
 
-        <td>
+                    <td>
 
-            <a href="../../controllers/PaymentMethodController.php?id=<?php echo $row['id']; ?>">
+                        <a href="../../controllers/PaymentMethodController.php?id=<?php echo $row['id']; ?>">
 
-                <button class="delete-btn">
+                            <button class="delete-btn">
 
-                    Eliminar
+                                Eliminar
 
-                </button>
+                            </button>
 
-            </a>
+                        </a>
 
-        </td>
+                    </td>
 
-    </tr>
+                </tr>
 
-    <?php } ?>
+            <?php } ?>
 
-</table>
+        </table>
 
 </body>
 

@@ -4,11 +4,11 @@ session_start();
 
 $inactive = 300;
 
-if(isset($_SESSION['timeout'])) {
+if (isset($_SESSION['timeout'])) {
 
     $sessionLife = time() - $_SESSION['timeout'];
 
-    if($sessionLife > $inactive) {
+    if ($sessionLife > $inactive) {
 
         session_unset();
 
@@ -17,19 +17,16 @@ if(isset($_SESSION['timeout'])) {
         header("Location: ../login.php");
 
         exit();
-
     }
-
 }
 
 $_SESSION['timeout'] = time();
 
-if(!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
 
     header("Location: ../login.php");
 
     exit();
-
 }
 
 include_once '../../models/SaleModel.php';
@@ -42,10 +39,12 @@ $sales = $saleModel->getSales();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Historial de Ventas</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
+
 <body>
 
     <div class="navbar">
@@ -60,63 +59,63 @@ $sales = $saleModel->getSales();
     <div class="container">
         <h1 class="title">Historial de Ventas</h1>
         <p class="subtitle">Registro completo de transacciones realizadas en el sistema.</p>
-        
+
         <div style="margin-bottom: 25px;">
-            <a href="../home.php" class="btn">Inicio</a>
+            <a href="../home.php" class="btn">Volver</a>
         </div>
 
-    <table>
+        <table>
 
-        <tr>
+            <tr>
 
-            <th>ID</th>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Total</th>
-            <th>Usuario</th>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Usuario</th>
 
-        </tr>
+            </tr>
 
-        <?php while($row = mysqli_fetch_assoc($sales)) { ?>
+            <?php while ($row = mysqli_fetch_assoc($sales)) { ?>
 
-        <tr>
+                <tr>
 
-            <td>
+                    <td>
 
-                <?php echo $row['id']; ?>
+                        <?php echo $row['id']; ?>
 
-            </td>
+                    </td>
 
-            <td>
+                    <td>
 
-                <?php echo $row['product_name']; ?>
+                        <?php echo $row['product_name']; ?>
 
-            </td>
+                    </td>
 
-            <td>
+                    <td>
 
-                <?php echo $row['quantity']; ?>
+                        <?php echo $row['quantity']; ?>
 
-            </td>
+                    </td>
 
-            <td>
+                    <td>
 
-                ₡<?php echo $row['total']; ?>
+                        ₡<?php echo $row['total']; ?>
 
-            </td>
-            
-            <td>
+                    </td>
 
-                <?php echo $row['user_name']; ?>
+                    <td>
 
-            </td>
+                        <?php echo $row['user_name']; ?>
+
+                    </td>
 
 
-        </tr>
+                </tr>
 
-        <?php } ?>
+            <?php } ?>
 
-    </table>
+        </table>
 
 </body>
 
