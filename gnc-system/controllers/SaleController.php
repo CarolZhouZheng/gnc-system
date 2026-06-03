@@ -135,3 +135,5 @@ if (isset($_POST['finish_sale'])) {
         exit();
     }
 }
+ 
+// Alessandro add 
