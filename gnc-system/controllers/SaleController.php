@@ -1,133 +1,105 @@
 <?php
-
 session_start();
-
 include_once '../models/SaleModel.php';
 
 $saleModel = new SaleModel();
 
-if(!isset($_SESSION['cart'])) {
-
+if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
-
 }
 
-if(isset($_POST['add_to_cart'])) {
+if (isset($_GET['action'])) {
+    if ($_GET['action'] == 'remove' && isset($_GET['index'])) {
+        unset($_SESSION['cart'][$_GET['index']]);
+        $_SESSION['cart'] = array_values($_SESSION['cart']);
+    }
+    if ($_GET['action'] == 'empty') {
+        $_SESSION['cart'] = [];
+        unset($_SESSION['edit_index']);
+    }
+    if ($_GET['action'] == 'edit' && isset($_GET['index'])) {
+        $_SESSION['edit_index'] = $_GET['index'];
+    }
+    if ($_GET['action'] == 'cancel_edit') {
+        unset($_SESSION['edit_index']);
+    }
+    header("Location: ../views/sales/sales.php");
+    exit();
+}
 
-    $product_id = $_POST['product_id'];
+if (isset($_POST['add_to_cart']) || isset($_POST['update_item'])) {
+    $product_id = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
+    $quantity = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT);
 
-    $quantity = $_POST['quantity'];
-
-    if(empty($quantity) || $quantity <= 0) {
-
-        echo "
-
-        <h1>
-
-            Cantidad inválida
-
-        </h1>
-
-        <a href='../views/sales/sales.php'>
-
-            Volver
-
-        </a>
-
-        ";
-
+    if (empty($quantity) || $quantity <= 0) {
+        $_SESSION['error'] = "La cantidad ingresada no es válida.";
+        header("Location: ../views/sales/sales.php");
         exit();
-
     }
 
     $product = $saleModel->getProductStock($product_id);
-
-    if($quantity > $product['stock']) {
-
-        echo "
-
-        <h1>
-
-            Stock insuficiente
-
-        </h1>
-
-        <a href='../views/sales/sales.php'>
-
-            Volver
-
-        </a>
-
-        ";
-
+    if (!$product) {
+        $_SESSION['error'] = "El producto seleccionado no existe.";
+        header("Location: ../views/sales/sales.php");
         exit();
+    }
 
+    if ($quantity > $product['stock']) {
+        $_SESSION['error'] = "Stock insuficiente para " . htmlspecialchars($product['name']) . ".";
+        header("Location: ../views/sales/sales.php");
+        exit();
     }
 
     $subtotal = $product['price'] * $quantity;
 
-    $_SESSION['cart'][] = [
-
+    $itemData = [
         'product_id' => $product_id,
-
         'product_name' => $product['name'],
-
         'quantity' => $quantity,
-
         'subtotal' => $subtotal
-
     ];
 
-    header("Location: ../views/sales/sales.php");
+    if (isset($_POST['update_item']) && isset($_POST['edit_index'])) {
+        $index = $_POST['edit_index'];
+        $_SESSION['cart'][$index] = $itemData;
+        unset($_SESSION['edit_index']);
+    } else {
+        $_SESSION['cart'][] = $itemData;
+    }
 
+    header("Location: ../views/sales/sales.php");
+    exit();
 }
 
-if(isset($_POST['finish_sale'])) {
-
-    if(empty($_SESSION['cart'])) {
-
-        echo "
-
-        <h1>
-
-            Carrito vacío
-
-        </h1>
-
-        ";
-
+if (isset($_POST['finish_sale'])) {
+    if (empty($_SESSION['cart'])) {
+        $_SESSION['error'] = "No puedes finalizar una venta con el carrito vacío.";
+        header("Location: ../views/sales/sales.php");
         exit();
-
     }
 
     $payment_method_id = $_POST['payment_method_id'];
 
     $total = 0;
-
-    foreach($_SESSION['cart'] as $item) {
-
+    foreach ($_SESSION['cart'] as $item) {
         $total += $item['subtotal'];
-
     }
 
     $user_id = $_SESSION['user']['id'];
     $conn = $saleModel->getConnection();
 
-    // Iniciar transacción explícita
     mysqli_begin_transaction($conn);
-
     try {
         $sale_id = $saleModel->createSale(
             $total,
             $user_id,
             $payment_method_id
         );
-
         if (!$sale_id) {
             throw new Exception("No se pudo registrar la cabecera de la venta.");
         }
 
-        foreach($_SESSION['cart'] as $item) {
+        foreach ($_SESSION['cart'] as $item) {
             // Bloqueo de fila para evitar condiciones de carrera concurrentes (Aislamiento)
             $product = $saleModel->getProductStockForUpdate($item['product_id']);
             if (!$product) {
@@ -150,28 +122,16 @@ if(isset($_POST['finish_sale'])) {
             }
         }
 
-        // Si todo va bien, confirmar la transacción (Commit)
         mysqli_commit($conn);
-
         $_SESSION['cart'] = [];
+        $_SESSION['success'] = "Venta registrada exitosamente.";
 
         header("Location: ../views/sales/sales-history.php");
         exit();
-
     } catch (Exception $e) {
-        // Ante cualquier error, deshacer todos los cambios (Rollback)
         mysqli_rollback($conn);
-
-        echo "
-        <div style='font-family: sans-serif; padding: 20px; text-align: center;'>
-            <h1 style='color: #d9534f;'>Error en la Transacción</h1>
-            <p>" . htmlspecialchars($e->getMessage()) . "</p>
-            <a href='../views/sales/sales.php' style='display: inline-block; padding: 10px 20px; background: #0275d8; color: white; text-decoration: none; border-radius: 4px;'>Volver al carrito</a>
-        </div>
-        ";
+        $_SESSION['error'] = $e->getMessage();
+        header("Location: ../views/sales/sales.php");
         exit();
     }
-
 }
-
-?>
