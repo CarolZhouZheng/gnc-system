@@ -1,6 +1,7 @@
 <?php
 
 include_once __DIR__ . '/../config/database.php';
+
 class ProductModel {
 
     public function getProducts() {
@@ -10,6 +11,7 @@ class ProductModel {
         $sql = "SELECT * FROM products";
 
         return mysqli_query($conn, $sql);
+
     }
 
     public function getProductById($id) {
@@ -27,6 +29,27 @@ class ProductModel {
         $result = mysqli_stmt_get_result($stmt);
 
         return mysqli_fetch_assoc($result);
+
+    }
+
+    public function getLowStockProducts() {
+
+        global $conn;
+
+        $sql = "CALL get_low_stock_products()";
+
+        return mysqli_query($conn, $sql);
+
+    }
+
+    
+    public function getOutOfStockProducts() {
+
+        global $conn;
+
+        $sql = "SELECT * FROM view_out_of_stock_products";
+
+        return mysqli_query($conn, $sql);
 
     }
 
@@ -52,7 +75,16 @@ class ProductModel {
 
         $stmt = mysqli_prepare($conn, $sql);
 
-        mysqli_stmt_bind_param($stmt, "issdis", $category_id, $name, $description, $price, $stock, $image);
+        mysqli_stmt_bind_param(
+            $stmt,
+            "issdis",
+            $category_id,
+            $name,
+            $description,
+            $price,
+            $stock,
+            $image
+        );
 
         return mysqli_stmt_execute($stmt);
 
@@ -79,7 +111,16 @@ class ProductModel {
 
         $stmt = mysqli_prepare($conn, $sql);
 
-        mysqli_stmt_bind_param($stmt, "ssdisi", $name, $description, $price, $stock, $image, $id);
+        mysqli_stmt_bind_param(
+            $stmt,
+            "ssdisi",
+            $name,
+            $description,
+            $price,
+            $stock,
+            $image,
+            $id
+        );
 
         return mysqli_stmt_execute($stmt);
 
@@ -100,4 +141,5 @@ class ProductModel {
     }
 
 }
+
 ?>

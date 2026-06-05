@@ -5,39 +5,18 @@ include_once __DIR__ . '/../config/database.php';
 class SaleModel {
 
     public function getConnection() {
+
         global $conn;
+
         return $conn;
+
     }
 
     public function getSales() {
 
         global $conn;
 
-        $sql = "SELECT 
-        
-        sales.*,
-
-        users.name AS user_name,
-
-        products.name AS product_name,
-
-        payment_methods.name AS payment_method,
-
-        sale_details.quantity
-
-        FROM sale_details
-
-        INNER JOIN sales
-        ON sale_details.sale_id = sales.id
-
-        INNER JOIN products
-        ON sale_details.product_id = products.id
-
-        INNER JOIN users
-        ON sales.user_id = users.id
-
-        INNER JOIN payment_methods
-        ON sales.payment_method_id = payment_methods.id";
+        $sql = "SELECT * FROM view_sales_history";
 
         return mysqli_query($conn, $sql);
 
@@ -116,10 +95,18 @@ class SaleModel {
 
         $stmt = mysqli_prepare($conn, $sql);
 
-        mysqli_stmt_bind_param($stmt, "iid", $user_id, $payment_method_id, $total);
+        mysqli_stmt_bind_param(
+            $stmt,
+            "iid",
+            $user_id,
+            $payment_method_id,
+            $total
+        );
 
         if (mysqli_stmt_execute($stmt)) {
+
             return mysqli_insert_id($conn);
+
         }
 
         return false;
@@ -144,11 +131,19 @@ class SaleModel {
 
         $stmt = mysqli_prepare($conn, $sql);
 
-        mysqli_stmt_bind_param($stmt, "iiid", $sale_id, $product_id, $quantity, $subtotal);
+        mysqli_stmt_bind_param(
+            $stmt,
+            "iiid",
+            $sale_id,
+            $product_id,
+            $quantity,
+            $subtotal
+        );
 
         return mysqli_stmt_execute($stmt);
 
     }
 
 }
+
 ?>
