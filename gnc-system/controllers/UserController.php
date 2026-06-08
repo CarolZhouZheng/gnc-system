@@ -8,40 +8,62 @@ $userModel = new UserModel();
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $email = $_POST['email'];
+    if(isset($_POST['action']) && $_POST['action'] == 'register') {
 
-    $password = $_POST['password'];
+        $name = $_POST['name'];
 
-    $user = $userModel->login(
-        $email,
-        $password
-    );
+        $email = $_POST['email'];
 
-    if($user) {
+        $password = $_POST['password'];
 
-        $_SESSION['user'] = $user;
+        $register = $userModel->register(
+            $name,
+            $email,
+            $password
+        );
 
-        $_SESSION['timeout'] = time();
+        if($register) {
 
-        header("Location: ../views/home.php");
+            header("Location: ../views/login.php?success=1");
+
+            exit();
+
+        } else {
+
+            header("Location: ../views/register.php?error=1");
+
+            exit();
+
+        }
 
     } else {
 
-        echo "
+        $email = $_POST['email'];
 
-        <h1>
+        $password = $_POST['password'];
 
-            Correo o contraseña incorrectos
+        $user = $userModel->login(
+            $email,
+            $password
+        );
 
-        </h1>
+        if($user) {
 
-        <a href='../views/login.php'>
+            $_SESSION['user'] = $user;
 
-            Volver
+            $_SESSION['timeout'] = time();
 
-        </a>
+            header("Location: ../views/home.php");
 
-        ";
+            exit();
+
+        } else {
+
+            header("Location: ../views/login.php?error=1");
+
+            exit();
+
+        }
 
     }
 

@@ -192,14 +192,22 @@ if(isset($_POST['update'])) {
 
     }
 
-    $imageName = $_FILES['image']['name'];
+    $product = $productModel->getProductById($id);
 
-    $tempName = $_FILES['image']['tmp_name'];
+    $imageName = $product['image'];
 
-    move_uploaded_file(
-        $tempName,
-        "../assets/images/" . $imageName
-    );
+    if(!empty($_FILES['image']['name'])) {
+
+        $imageName = $_FILES['image']['name'];
+
+        $tempName = $_FILES['image']['tmp_name'];
+
+        move_uploaded_file(
+            $tempName,
+            "../assets/images/" . $imageName
+        );
+
+    }
 
     $productModel->updateProduct(
         $id,

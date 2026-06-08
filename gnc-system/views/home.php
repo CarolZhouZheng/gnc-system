@@ -146,6 +146,19 @@ href="../assets/css/style.css">
 
         </a>
 
+        <a href="audits/audits.php" class="card">
+
+            <h2>
+                Auditorías
+            </h2>
+
+            <p>
+                Visualiza registros automáticos
+                de acciones realizadas en el sistema.
+            </p>
+
+        </a>
+
     </div>
 
 </div>

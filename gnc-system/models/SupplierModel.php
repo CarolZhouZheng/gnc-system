@@ -24,6 +24,11 @@ class SupplierModel {
 
         $result = mysqli_query($conn, $sql);
 
+        $sql = "SELECT * FROM suppliers WHERE id = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         return mysqli_fetch_assoc($result);
     }
 
@@ -44,6 +49,10 @@ class SupplierModel {
             address
         
         )
+        $sql = "INSERT INTO suppliers (name, phone, email, address) VALUES (?, ?, ?, ?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ssss", $name, $phone, $email, $address);
+        return mysqli_stmt_execute($stmt);
 
         VALUES(
         

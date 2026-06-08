@@ -2,13 +2,7 @@
 
 session_start();
 
-if(isset($_SESSION['user'])) {
-
-    header("Location: home.php");
-
-    exit();
-
-}
+session_destroy();
 
 ?>
 
@@ -19,7 +13,7 @@ if(isset($_SESSION['user'])) {
 
     <meta charset="UTF-8">
 
-    <title>GNC Login</title>
+    <title>Registrar Usuario</title>
 
     <link rel="stylesheet" href="../assets/css/style.css">
 
@@ -115,12 +109,6 @@ if(isset($_SESSION['user'])) {
 
         }
 
-        .register-link {
-
-            margin-top: 20px;
-
-        }
-
     </style>
 
 </head>
@@ -135,46 +123,37 @@ if(isset($_SESSION['user'])) {
 
         <h1>
 
-            Iniciar Sesión
+            Registrar Usuario
 
         </h1>
-       <?php if(isset($_GET['success'])) { ?>
-
-    <p style="color: #00ff88; margin-bottom: 20px;">
-
-        Usuario registrado correctamente
-
-    </p>
-
-<?php } ?>
-
-<?php if(isset($_GET['error']) && $_GET['error'] == 1) { ?>
-
-    <p style="color: red; margin-bottom: 20px;">
-
-        Correo o contraseña incorrectos
-
-    </p>
-
-<?php } ?>
-
-<?php if(isset($_GET['error']) && $_GET['error'] == 2) { ?>
-
-    <p style="color: orange; margin-bottom: 20px;">
-
-        Todos los campos son obligatorios
-
-    </p>
-
-<?php } ?>
 
         <form
-        action="../controllers/LoginController.php"
+        action="../controllers/UserController.php"
         method="POST">
+
+            <input
+            type="hidden"
+            name="action"
+            value="register">
 
             <div class="input-group">
 
-                <label for="email">
+                <label>
+
+                    Nombre
+
+                </label>
+
+                <input
+                type="text"
+                name="name"
+                required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>
 
                     Correo Electrónico
 
@@ -182,7 +161,6 @@ if(isset($_SESSION['user'])) {
 
                 <input
                 type="email"
-                id="email"
                 name="email"
                 required>
 
@@ -190,7 +168,7 @@ if(isset($_SESSION['user'])) {
 
             <div class="input-group">
 
-                <label for="password">
+                <label>
 
                     Contraseña
 
@@ -198,7 +176,6 @@ if(isset($_SESSION['user'])) {
 
                 <input
                 type="password"
-                id="password"
                 name="password"
                 required>
 
@@ -208,21 +185,19 @@ if(isset($_SESSION['user'])) {
             type="submit"
             class="login-btn btn add-btn">
 
-                Entrar al Sistema
+                Registrar Usuario
 
             </button>
 
         </form>
 
-        <div class="register-link">
+        <br>
 
-            <a href="register.php">
+        <a href="login.php">
 
-                Crear nuevo usuario administrativo
+            Volver al login
 
-            </a>
-
-        </div>
+        </a>
 
     </div>
 

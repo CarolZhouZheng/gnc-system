@@ -14,21 +14,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if(empty($email) || empty($password)) {
 
-        echo "
-
-        <h1>
-
-            Todos los campos son obligatorios
-
-        </h1>
-
-        <a href='../views/login.php'>
-
-            Volver
-
-        </a>
-
-        ";
+        header("Location: ../views/login.php?error=2");
 
         exit();
 
@@ -51,21 +37,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     } else {
 
-        echo "
+        header("Location: ../views/login.php?error=1");
 
-        <h1>
-
-            Correo o contraseña incorrectos
-
-        </h1>
-
-        <a href='../views/login.php'>
-
-            Volver
-
-        </a>
-
-        ";
+        exit();
 
     }
 
