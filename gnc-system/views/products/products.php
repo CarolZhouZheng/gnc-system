@@ -38,6 +38,8 @@ $productModel = new ProductModel();
 */
 $filter = $_GET['filter'] ?? 'all';
 
+$categoryFilter = $_GET['category'] ?? '';
+
 if ($filter == 'low') {
 
     $result = $productModel->getLowStockProducts();
@@ -46,231 +48,284 @@ if ($filter == 'low') {
 
     $result = $productModel->getOutOfStockProducts();
 
+} elseif (!empty($categoryFilter)) {
+
+    $result = $productModel->getProductsByCategory($categoryFilter);
+
 } else {
 
     $result = $productModel->getProducts();
 
 }
 
+$categories = $productModel->getCategories();
+
 ?>
 
 <!DOCTYPE html>
+
 <html>
 
 <head>
 
-    <title>Productos</title>
 
-    <link rel="stylesheet" href="../../assets/css/style.css">
+<title>Productos</title>
 
-    <style>
+<link rel="stylesheet" href="../../assets/css/style.css">
 
-        .product-img {
+<style>
 
-            width: 60px;
+    .product-img {
 
-            height: 60px;
+        width: 60px;
 
-            object-fit: cover;
+        height: 60px;
 
-            border-radius: 8px;
+        object-fit: cover;
 
-            border: 1px solid var(--gnc-border);
+        border-radius: 8px;
 
-        }
+        border: 1px solid var(--gnc-border);
 
-        .filter-container {
+    }
 
-            margin-bottom: 20px;
+    .filter-container {
 
-        }
+        margin-bottom: 20px;
 
-        .filter-btn {
+    }
 
-            margin-right: 10px;
+    .filter-btn {
 
-        }
+        margin-right: 10px;
 
-    </style>
+    }
+
+    .category-filter {
+
+        margin-top: 15px;
+
+    }
+
+</style>
+
 
 </head>
 
 <body>
 
-    <div class="navbar">
 
-        <a href="../home.php" class="logo">
+<div class="navbar">
 
-            <img src="../../assets/images/GNC_Logo.svg.png" alt="GNC Logo">
+    <a href="../home.php" class="logo">
+
+        <img src="../../assets/images/GNC_Logo.svg.png" alt="GNC Logo">
+
+    </a>
+
+    <div class="nav-actions">
+
+        <a href="../logout.php" class="btn">
+
+            Cerrar Sesión
 
         </a>
 
-        <div class="nav-actions">
+    </div>
 
-            <a href="../logout.php" class="btn">
+</div>
 
-                Cerrar Sesión
+<div class="container">
 
-            </a>
+    <h1 class="title">
 
-        </div>
+        Inventario
+
+    </h1>
+
+    <p class="subtitle">
+
+        Gestión centralizada de suplementos y stock disponible.
+
+    </p>
+
+    <div style="margin-bottom: 25px;">
+
+        <a href="../home.php" class="btn">
+
+            Volver
+
+        </a>
+
+        <a href="add-product.php" class="btn add-btn">
+
+            Agregar Producto
+
+        </a>
 
     </div>
 
-    <div class="container">
+    <!-- FILTROS -->
 
-        <h1 class="title">
+    <div class="filter-container">
 
-            Inventario
+        <a href="products.php">
 
-        </h1>
+            <button class="btn filter-btn">
 
-        <p class="subtitle">
+                Todos
 
-            Gestión centralizada de suplementos y stock disponible.
+            </button>
 
-        </p>
+        </a>
 
-        <div style="margin-bottom: 25px;">
+        <a href="products.php?filter=low">
 
-            <a href="../home.php" class="btn">
+            <button class="btn filter-btn">
 
-                Volver
+                Bajo Stock
 
-            </a>
+            </button>
 
-            <a href="add-product.php" class="btn add-btn">
+        </a>
 
-                Agregar Producto
+        <a href="products.php?filter=out">
 
-            </a>
+            <button class="btn filter-btn">
 
-        </div>
+                Agotados
 
-        <!-- FILTROS -->
+            </button>
 
-        <div class="filter-container">
+        </a>
 
-            <a href="products.php">
+    </div>
 
-                <button class="btn filter-btn">
+    <!-- FILTRO POR CATEGORÍA -->
 
-                    Todos
+    <div class="category-filter">
 
-                </button>
+        <form method="GET">
 
-            </a>
+            <select name="category">
 
-            <a href="products.php?filter=low">
+                <option value="">
 
-                <button class="btn filter-btn">
+                    Todas las categorías
 
-                    Bajo Stock
+                </option>
 
-                </button>
+                <?php while($category = mysqli_fetch_assoc($categories)) { ?>
 
-            </a>
+                    <option value="<?php echo $category['id']; ?>">
 
-            <a href="products.php?filter=out">
+                        <?php echo $category['name']; ?>
 
-                <button class="btn filter-btn">
+                    </option>
 
-                    Agotados
+                <?php } ?>
 
-                </button>
+            </select>
 
-            </a>
+            <button type="submit" class="btn">
 
-        </div>
+                Filtrar Categoría
 
-        <table>
+            </button>
+
+        </form>
+
+    </div>
+
+    <table>
+
+        <tr>
+
+            <th>ID</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+
+        </tr>
+
+        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
 
             <tr>
 
-                <th>ID</th>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Acciones</th>
+                <td>
+
+                    <?php echo $row['id']; ?>
+
+                </td>
+
+                <td>
+
+                    <img
+                        src="../../assets/images/<?php echo $row['image']; ?>"
+                        class="product-img"
+                    >
+
+                </td>
+
+                <td>
+
+                    <?php echo $row['name']; ?>
+
+                </td>
+
+                <td>
+
+                    <?php echo $row['description']; ?>
+
+                </td>
+
+                <td>
+
+                    ₡<?php echo $row['price']; ?>
+
+                </td>
+
+                <td>
+
+                    <?php echo $row['stock']; ?>
+
+                </td>
+
+                <td>
+
+                    <a href="modify-product.php?id=<?php echo $row['id']; ?>">
+
+                        <button class="btn">
+
+                            Editar
+
+                        </button>
+
+                    </a>
+
+                    <a href="../../controllers/ProductController.php?id=<?php echo $row['id']; ?>">
+
+                        <button class="btn">
+
+                            Eliminar
+
+                        </button>
+
+                    </a>
+
+                </td>
 
             </tr>
 
-            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <?php } ?>
 
-                <tr>
+    </table>
 
-                    <td>
+</div>
 
-                        <?php echo $row['id']; ?>
-
-                    </td>
-
-                    <td>
-
-                        <img
-                            src="../../assets/images/<?php echo $row['image']; ?>"
-                            class="product-img"
-                        >
-
-                    </td>
-
-                    <td>
-
-                        <?php echo $row['name']; ?>
-
-                    </td>
-
-                    <td>
-
-                        <?php echo $row['description']; ?>
-
-                    </td>
-
-                    <td>
-
-                        ₡<?php echo $row['price']; ?>
-
-                    </td>
-
-                    <td>
-
-                        <?php echo $row['stock']; ?>
-
-                    </td>
-
-                    <td>
-
-                        <a href="modify-product.php?id=<?php echo $row['id']; ?>">
-
-                            <button class="btn">
-
-                                Editar
-
-                            </button>
-
-                        </a>
-
-                        <a href="../../controllers/ProductController.php?id=<?php echo $row['id']; ?>">
-
-                            <button class="btn">
-
-                                Eliminar
-
-                            </button>
-
-                        </a>
-
-                    </td>
-
-                </tr>
-
-            <?php } ?>
-
-        </table>
-
-    </div>
 
 </body>
 

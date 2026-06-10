@@ -8,7 +8,7 @@ $sql = "SELECT * FROM audit_logs";
 
 $result = mysqli_query($conn, $sql);
 
-if(mysqli_num_rows($result) > 0) {
+if($result) {
 
     echo "
 
@@ -20,7 +20,7 @@ if(mysqli_num_rows($result) > 0) {
 
     <p>
 
-        Las auditorías fueron obtenidas correctamente.
+        La tabla de auditorías es accesible y la consulta fue exitosa. Registros encontrados: " . mysqli_num_rows($result) . "
 
     </p>
 

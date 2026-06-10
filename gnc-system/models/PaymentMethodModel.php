@@ -32,15 +32,13 @@ class PaymentMethodModel {
 
         global $conn;
 
-        $sql = "DELETE FROM payment_methods
         $sql = "DELETE FROM payment_methods WHERE id = ?";
+
         $stmt = mysqli_prepare($conn, $sql);
+
         mysqli_stmt_bind_param($stmt, "i", $id);
+
         return mysqli_stmt_execute($stmt);
-
-        WHERE id = '$id'";
-
-        return mysqli_query($conn, $sql);
 
     }
 

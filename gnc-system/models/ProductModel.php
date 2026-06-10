@@ -42,7 +42,6 @@ class ProductModel {
 
     }
 
-    
     public function getOutOfStockProducts() {
 
         global $conn;
@@ -92,6 +91,7 @@ class ProductModel {
 
     public function updateProduct(
         $id,
+        $category_id,
         $name,
         $description,
         $price,
@@ -102,6 +102,7 @@ class ProductModel {
         global $conn;
 
         $sql = "UPDATE products SET
+            category_id = ?,
             name = ?,
             description = ?,
             price = ?,
@@ -113,7 +114,8 @@ class ProductModel {
 
         mysqli_stmt_bind_param(
             $stmt,
-            "ssdisi",
+            "issdisi",
+            $category_id,
             $name,
             $description,
             $price,
@@ -137,6 +139,27 @@ class ProductModel {
         mysqli_stmt_bind_param($stmt, "i", $id);
 
         return mysqli_stmt_execute($stmt);
+
+    }
+
+    public function getCategories() {
+
+        global $conn;
+
+        $sql = "SELECT * FROM categories";
+
+        return mysqli_query($conn, $sql);
+
+    }
+
+    public function getProductsByCategory($category_id) {
+
+        global $conn;
+
+        $sql = "SELECT * FROM products
+                WHERE category_id = '$category_id'";
+
+        return mysqli_query($conn, $sql);
 
     }
 

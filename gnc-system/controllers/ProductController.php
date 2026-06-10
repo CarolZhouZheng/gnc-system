@@ -19,8 +19,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['update'])) {
     if(
         empty($name) ||
         empty($description) ||
-        empty($price) ||
-        empty($stock)
+        $price === '' ||
+        $stock === ''
     ) {
 
         echo "
@@ -113,6 +113,8 @@ if(isset($_POST['update'])) {
 
     $id = $_POST['id'];
 
+    $category_id = $_POST['category_id'];
+
     $name = trim($_POST['name']);
 
     $description = trim($_POST['description']);
@@ -124,8 +126,8 @@ if(isset($_POST['update'])) {
     if(
         empty($name) ||
         empty($description) ||
-        empty($price) ||
-        empty($stock)
+        $price === '' ||
+        $stock === ''
     ) {
 
         echo "
@@ -211,6 +213,7 @@ if(isset($_POST['update'])) {
 
     $productModel->updateProduct(
         $id,
+        $category_id,
         $name,
         $description,
         $price,

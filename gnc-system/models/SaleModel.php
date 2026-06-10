@@ -55,8 +55,10 @@ class SaleModel {
         mysqli_stmt_execute($stmt);
 
         $result = mysqli_stmt_get_result($stmt);
-
-        return mysqli_fetch_assoc($result);
+        $product = mysqli_fetch_assoc($result);
+        
+        mysqli_stmt_close($stmt);
+        return $product;
 
     }
 
@@ -73,8 +75,10 @@ class SaleModel {
         mysqli_stmt_execute($stmt);
 
         $result = mysqli_stmt_get_result($stmt);
+        $product = mysqli_fetch_assoc($result);
 
-        return mysqli_fetch_assoc($result);
+        mysqli_stmt_close($stmt);
+        return $product;
 
     }
 
@@ -104,11 +108,12 @@ class SaleModel {
         );
 
         if (mysqli_stmt_execute($stmt)) {
-
-            return mysqli_insert_id($conn);
-
+            $id = mysqli_insert_id($conn);
+            mysqli_stmt_close($stmt);
+            return $id;
         }
 
+        mysqli_stmt_close($stmt);
         return false;
 
     }
@@ -140,7 +145,10 @@ class SaleModel {
             $subtotal
         );
 
-        return mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        
+        return $result;
 
     }
 

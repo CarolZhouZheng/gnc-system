@@ -104,36 +104,56 @@ class SaleModel {
 
     }
 
-    public function addSaleDetail(
-        $sale_id,
-        $product_id,
-        $quantity,
-        $subtotal
-    ) {
+ public function addSaleDetail(
+$sale_id,
+$product_id,
+$quantity,
+$subtotal
+) {
 
-        global $conn;
+$conn = $this->getConnection();
 
-        $sql = "INSERT INTO sale_details(
-        
-            sale_id,
-            product_id,
-            quantity,
-            subtotal
-        
-        )
+$sql = "INSERT INTO sale_details(
 
-        VALUES(
-        
-            '$sale_id',
-            '$product_id',
-            '$quantity',
-            '$subtotal'
-        
-        )";
+    sale_id,
+    product_id,
+    quantity,
+    subtotal
 
-        return mysqli_query($conn, $sql);
+)
 
-    }
+VALUES(
+
+    ?,
+    ?,
+    ?,
+    ?
+
+)";
+
+$stmt = mysqli_prepare($conn, $sql);
+
+if (!$stmt) {
+
+    return false;
 
 }
-?>
+
+mysqli_stmt_bind_param(
+    $stmt,
+    "iiid",
+    $sale_id,
+    $product_id,
+    $quantity,
+    $subtotal
+);
+
+$result = mysqli_stmt_execute($stmt);
+
+mysqli_stmt_close($stmt);
+
+return $result;
+
+
+}
+}
