@@ -39,6 +39,7 @@ if(!isset($_SESSION['user'])) {
                         <option value="2">Creatinas</option>
                         <option value="3">Pre-entrenos</option>
                         <option value="4">Vitaminas</option>
+                        <option value="5">Accesorios</option>
                     </select>
                 </div>
 

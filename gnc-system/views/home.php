@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+$inactive = 300;
 
 if(!isset($_SESSION['user'])) {
 

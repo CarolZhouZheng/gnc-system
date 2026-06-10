@@ -32,15 +32,19 @@ class ProductModel {
 
     }
 
-    public function getLowStockProducts() {
+   public function getLowStockProducts() {
 
-        global $conn;
+global $conn;
 
-        $sql = "CALL get_low_stock_products()";
+$sql = "SELECT * FROM products
+        WHERE stock < 5
+        AND stock > 0";
 
-        return mysqli_query($conn, $sql);
+return mysqli_query($conn, $sql);
 
-    }
+
+}
+
 
     public function getOutOfStockProducts() {
 
